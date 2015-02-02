@@ -1,7 +1,7 @@
 #-*- coding: ISO-8859-1 -*-
 # setup.py: the distutils script
 #
-# Copyright (C) 2004-2007 Gerhard Häring <gh@ghaering.de>
+# Copyright (C) 2004-2007 Gerhard Hring <gh@ghaering.de>
 #
 # This file is part of pysqlite.
 #
@@ -24,6 +24,7 @@
 import glob
 import os
 import re
+import io
 import shutil
 import sys
 
@@ -83,7 +84,7 @@ class DocBuilder(Command):
         os.makedirs("build/doc")
         rc = os.system("sphinx-build doc/sphinx build/doc")
         if rc != 0:
-            print "Is sphinx installed? If not, try 'sudo easy_install sphinx'."
+            print("Is sphinx installed? If not, try 'sudo easy_install sphinx'.")
 
 class AmalgamationBuilder(build):
     description = "Build a statically built pysqlite using the amalgamtion."
@@ -113,7 +114,7 @@ def get_setup_args():
     PYSQLITE_VERSION = None
 
     version_re = re.compile('#define PYSQLITE_VERSION "(.*)"')
-    f = open(os.path.join("src", "module.h"))
+    f = io.open(os.path.join("src", "module.h"), encoding='ISO-8859-1')
     for line in f:
         match = version_re.match(line)
         if match:
@@ -122,7 +123,7 @@ def get_setup_args():
     f.close()
 
     if not PYSQLITE_VERSION:
-        print "Fatal error: PYSQLITE_VERSION could not be detected!"
+        print("Fatal error: PYSQLITE_VERSION could not be detected!")
         sys.exit(1)
 
     data_files = [("pysqlite2-doc",
